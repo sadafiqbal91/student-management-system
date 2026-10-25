@@ -1,0 +1,29 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #f3f5f9; color: #222; }
+.nav { display: flex; align-items: center; gap: 16px; background: #1f2a44; color: #fff; padding: 12px 20px; flex-wrap: wrap; }
+.nav a { color: #cfd8ff; text-decoration: none; }
+.nav .sp { flex: 1; }
+.container { max-width: 1000px; margin: 20px auto; padding: 0 14px; }
+.card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 1px 4px rgba(0,0,0,.1); margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 16px; }
+.stat h2 { margin: 0; font-size: 34px; color: #3b5bdb; }
+.stat p { margin: 4px 0 0; color: #666; }
+input, select, button, textarea { padding: 10px; border-radius: 6px; border: 1px solid #ccd; font-size: 15px; }
+button { background: #3b5bdb; color: #fff; border: none; cursor: pointer; }
+button:disabled { opacity: .6; cursor: not-allowed; }
+button.red { background: #e03131; }
+button.gray { background: #868e96; }
+.form { display: grid; gap: 12px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.err { color: #c92a2a; background: #ffe3e3; padding: 8px 10px; border-radius: 6px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.row input { flex: 1; min-width: 160px; }
+.auth { max-width: 380px; margin: 60px auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+.tablewrap { overflow-x: auto; }
+.loader { text-align: center; padding: 20px; color: #3b5bdb; font-weight: bold; }
+.spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid #ccd; border-top-color: #3b5bdb; border-radius: 50%; animation: sp 1s linear infinite; vertical-align: middle; margin-right: 8px; }
+@keyframes sp { to { transform: rotate(360deg); } }
+a.btn { background: #3b5bdb; color: #fff; padding: 6px 10px; border-radius: 6px; text-decoration: none; font-size: 13px; }
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
