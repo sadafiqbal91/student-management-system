@@ -10,6 +10,32 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("Server is running"));
 
+// Vercel serverless: make sure DB is connected before every request
+let dbPromise = null;
+function connectDB() {
+  if (mongoose.connection.readyState === 1) return Promise.resolve();
+  if (!dbPromise) {
+    dbPromise = mongoose
+      .connect(process.env.MONGO_URI)
+      .then(() => console.log("MongoDB connected"))
+      .catch((err) => {
+        dbPromise = null;
+        console.log("Connection error:", err.message);
+        throw err;
+      });
+  }
+  return dbPromise;
+}
+
+app.use("/api", async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
+
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/stats", protect, require("./routes/statsRoutes"));
 app.use(
@@ -19,12 +45,11 @@ app.use(
   require("./routes/StudentRoutes")
 );
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected");
-    app.listen(process.env.PORT, () => {
-      console.log("Server running on port " + process.env.PORT);
-    });
-  })
-  .catch((err) => console.log("Connection error:", err.message));
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  const PORT = process.env.PORT || 5000;
+  connectDB().then(() => {
+    app.listen(PORT, () => console.log("Server running on port " + PORT));
+  });
+}
